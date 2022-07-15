@@ -15,8 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-class QuizController {
+public class QuizController {
 
     @Autowired
     QuizService quizService;
@@ -25,8 +24,7 @@ class QuizController {
     @ResponseStatus(HttpStatus.OK)
     public Question getQuestion(OAuth2Authentication authentication){
         try {
-            Question newQuestion = quizService.getQuestion(authentication.getPrincipal().toString(), true);
-            return newQuestion;
+            return quizService.getQuestion(authentication.getPrincipal().toString(), true);
         }
         catch (Exception exception) {
             throw new ResponseStatusException (
@@ -38,8 +36,7 @@ class QuizController {
     @ResponseStatus(HttpStatus.OK)
     public Answer answerQuestion(@RequestBody Response response, OAuth2Authentication authentication){
         try {
-            Answer answer = quizService.checkResponse(authentication.getPrincipal().toString(), response);
-            return answer;
+            return quizService.checkResponse(authentication.getPrincipal().toString(), response);
         }
         catch (Exception exception) {
             throw new ResponseStatusException (
@@ -51,8 +48,7 @@ class QuizController {
     @ResponseStatus(HttpStatus.OK)
     public Quiz startQuiz(OAuth2Authentication authentication){
         try {
-            Quiz newQuiz = quizService.startQuiz(authentication.getPrincipal().toString());
-            return newQuiz;
+            return quizService.startQuiz(authentication.getPrincipal().toString());
         }
         catch (Exception exception) {
             throw new ResponseStatusException (
