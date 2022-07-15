@@ -103,6 +103,13 @@ public class QuizControllerTest {
         assertThrows(ResponseStatusException.class, () -> quizController.getQuestion(mockOAuth2Object));
     }
 
+    @Test
+    public void shouldThrowExceptionOnAnswerQuestion() {
+        Response response = new Response();
+        when(quizService.checkResponse(mockOAuth2Object.getPrincipal().toString(), response)).thenThrow(EntityNotFoundException.class);
+        assertThrows(ResponseStatusException.class, () -> quizController.answerQuestion(response, mockOAuth2Object));
+    }
+
     private Quiz createQuiz(){
         Quiz quiz = new Quiz();
         quiz.setId(9999L);

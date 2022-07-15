@@ -2,13 +2,12 @@ package br.com.letscode.interview.answer.resource.controller;
 
 import br.com.letscode.interview.answer.resource.domain.Answer;
 import br.com.letscode.interview.answer.resource.domain.Question;
+import br.com.letscode.interview.answer.resource.domain.Quiz;
 import br.com.letscode.interview.answer.resource.domain.Response;
 import br.com.letscode.interview.answer.resource.service.QuizService;
-import br.com.letscode.interview.answer.resource.domain.Quiz;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -64,7 +63,6 @@ class QuizController {
     @PostMapping(path = "/quiz/finish", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public void finishQuiz(OAuth2Authentication authentication){
-
         try {
             quizService.finishQuiz(authentication.getPrincipal().toString());
         }

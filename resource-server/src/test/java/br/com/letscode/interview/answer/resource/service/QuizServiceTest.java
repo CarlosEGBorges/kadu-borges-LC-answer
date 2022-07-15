@@ -57,6 +57,15 @@ public class QuizServiceTest {
     }
 
     @Test
+    public void shouldFinishAQuizWithoutThrowingException() {
+        Quiz quiz = new Quiz();
+        quiz.setActive(true);
+        when(quizRepository.findByUsernameAndActiveIsTrue(anyString())).thenReturn(quiz);
+        quizService.finishQuiz(principal);
+        assertFalse(quiz.getActive());
+    }
+
+    @Test
     public void shouldThrowExceptionOnGetQuestion_whenNoQuizIsFound() {
         when(quizRepository.findByUsernameAndActiveIsTrue(anyString())).thenReturn(null);
         assertThrows(EntityNotFoundException.class, () -> quizService.getQuestion(principal, true));
@@ -66,6 +75,14 @@ public class QuizServiceTest {
     public void shouldThrowExceptionOnStart_whenAQuizIsFound() {
         when(quizRepository.findByUsernameAndActiveIsTrue(anyString())).thenReturn(createQuiz());
         assertThrows(EntityExistsException.class, () -> quizService.startQuiz(principal));
+    }
+
+    @Test
+    public void shouldNotThrowExceptionOnStart_whenNoQuizIsFound() {
+        Quiz quiz = new Quiz();
+        when(quizRepository.findByUsernameAndActiveIsTrue(anyString())).thenReturn(null);
+        when(quizRepository.save(isA(Quiz.class))).thenReturn(quiz);
+        assertNotNull(quizService.startQuiz(principal));
     }
 
     @Test
