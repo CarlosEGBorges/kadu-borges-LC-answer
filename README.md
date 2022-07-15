@@ -8,16 +8,19 @@ A solução foi criada utilizando-se os seguintes conceitos e tecnologias:
     <ul>
       <li>Spring Web</li>
       <li>Spring Data JPA</li>
-      <li>Spring Security</li>
-      <li>Spring Security OAuth2</li>
-      <li>Spring Security JWT</li>
+      <li>Spring Security com OAuth2 e JWT</li>
     </ul>
   </li>
   <li>JUnit 5</li>
   <li>Lombok</li>
   <li>SpringDoc</li>
   <li>H2 Database</li>
-  <li>Arquitetura Controller-Service-Repository</li>
+  <li>Arquitetura
+    <ul>
+      <li>Authorization Server</li>
+      <li>Resource Server (Controller-Service-Repository)</li>
+    </ul>
+  </li>
 </ul>
 </p>
 
