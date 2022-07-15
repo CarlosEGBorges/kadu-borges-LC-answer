@@ -22,17 +22,18 @@ public class RankingService {
         String player = null;
         double questions = 0;
         double points = 0;
+        int quizzes = 0;
         for(Quiz q : quizList){
-            if(player != null && !player.equals(q.getUsername())){
-                ranking.add(new RankingPosition(player, points*100/questions));
+            if(player == null || !player.equals(q.getUsername())){
+                ranking.add(new RankingPosition(q.getUsername(), quizzes * (points*100/questions)));
                 questions = 0;
                 points = 0;
+                quizzes = 0;
                 player = q.getUsername();
-            } else {
-                player = q.getUsername();
-                questions += q.getQuestionList().size();
-                points += (q.getQuestionList().size() - q.getMistakes());
             }
+            quizzes++;
+            questions += q.getQuestionList().size();
+            points += (q.getQuestionList().size() - q.getMistakes());
         }
         Collections.sort(ranking);
         return ranking;

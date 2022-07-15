@@ -1,5 +1,8 @@
 package br.com.letscode.interview.answer.resource.domain;
 
+import lombok.Data;
+
+@Data
 public class RankingPosition implements Comparable<RankingPosition>{
     String player;
     Double score;

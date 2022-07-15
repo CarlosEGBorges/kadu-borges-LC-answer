@@ -14,7 +14,7 @@ import java.util.List;
 public class RankingController {
 
     @Autowired
-    RankingService rankingService;
+    private RankingService rankingService;
 
     @GetMapping(path = "/ranking", produces = "application/json")
     public List<RankingPosition> getRanking(){
