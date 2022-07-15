@@ -18,9 +18,6 @@ public class RankingController {
 
     @GetMapping(path = "/ranking", produces = "application/json")
     public List<RankingPosition> getRanking(){
-
-        List<RankingPosition> ranking = rankingService.getRanking();
-
-        return ranking;
+        return rankingService.getRanking();
     }
 }

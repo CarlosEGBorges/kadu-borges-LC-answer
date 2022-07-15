@@ -102,9 +102,68 @@ public class QuestionServiceTest {
         movieCardIterable.add(createMovieCard(3));
 
         when(movieCardRepository.findAll()).thenReturn(movieCardIterable);
-        when(movieCardRepository.findAll()).thenReturn(movieCardIterable);
 
         assertNotNull(questionService.createNewQuestion(quiz));
+    }
+
+    @Test
+    public void shouldCreateANewQuestionWithCard3() {
+        Quiz quiz = new Quiz();
+        List<Question> questionList = new ArrayList<>();
+        Question question = new Question();
+        question.setCardOne(createMovieCard(1));
+        question.setCardTwo(createMovieCard(2));
+        questionList.add(question);
+        quiz.setQuestionList(questionList);
+
+
+        List<MovieCard> movieCardIterable = new ArrayList<>();
+        movieCardIterable.add(createMovieCard(1));
+        movieCardIterable.add(createMovieCard(2));
+        MovieCard movieCard3 = createMovieCard(3);
+        movieCardIterable.add(movieCard3);
+
+        when(movieCardRepository.findAll()).thenReturn(movieCardIterable);
+
+        Question newQuestion = questionService.createNewQuestion(quiz);
+        assertTrue(newQuestion.getCardOne().equals(movieCard3)
+                || newQuestion.getCardTwo().equals(movieCard3));
+    }
+
+
+
+    @Test
+    public void shouldCreateANewQuestion() {
+        Quiz quiz = new Quiz();
+        List<Question> questionList = new ArrayList<>();
+        Question question = new Question();
+        question.setCardOne(createMovieCard(1));
+        question.setCardTwo(createMovieCard(2));
+        questionList.add(question);
+        question = new Question();
+        question.setCardOne(createMovieCard(3));
+        question.setCardTwo(createMovieCard(4));
+        questionList.add(question);
+        question = new Question();
+        question.setCardOne(createMovieCard(5));
+        question.setCardTwo(createMovieCard(6));
+        questionList.add(question);
+        quiz.setQuestionList(questionList);
+
+
+        List<MovieCard> movieCardIterable = new ArrayList<>();
+        movieCardIterable.add(createMovieCard(1));
+        movieCardIterable.add(createMovieCard(2));
+        movieCardIterable.add(createMovieCard(3));
+        movieCardIterable.add(createMovieCard(4));
+        movieCardIterable.add(createMovieCard(5));
+        movieCardIterable.add(createMovieCard(6));
+        movieCardIterable.add(createMovieCard(7));
+        movieCardIterable.add(createMovieCard(8));
+
+        when(movieCardRepository.findAll()).thenReturn(movieCardIterable);
+
+        assertNull(questionService.createNewQuestion(quiz).getAnswer());
     }
 
     private MovieCard createMovieCard(Integer randomInteger){
