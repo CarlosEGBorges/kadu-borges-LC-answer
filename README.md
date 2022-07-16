@@ -1,4 +1,4 @@
-# kadu-borges-LC-answer
+# LC Challenge - Kadu Borges' answer
 
 ## Descrição do Projeto
 <p align="center">
