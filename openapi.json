@@ -7,7 +7,7 @@
   "servers": [
     {
       "url": "http://localhost:8080",
-      "description": "For Movie Battle local test purposes only "
+      "description": "For Movie Battle local test purposes only."
     }
   ],
   "security": ["oAuth2Security"],
@@ -29,6 +29,16 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "It was not possible to create a new quiz, because there already is one opened.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       }
@@ -43,6 +53,16 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "No opened quiz was found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       }
@@ -50,6 +70,7 @@
     "/api/quizzes/questions": {
       "description": "This resource represents a QUESTION of an active QUIZ",
       "get": {
+        "description": "It gets, if exists, an unanswered question.",
         "tags": [
           "quiz-controller"
         ],
@@ -68,6 +89,7 @@
         }
       },
       "post": {
+        "description": "It creates a new questions if an unanswered one does not exist.",
         "tags": [
           "quiz-controller"
         ],
@@ -89,6 +111,7 @@
     "/api/quizzes/questions/answer": {
       "description": "This resource represents the ANSWER of an unanswered QUESTION",
       "post": {
+        "description": "It receives a response and creates an answer for an opened question.",
         "tags": [
           "quiz-controller"
         ],
@@ -120,6 +143,7 @@
     "/api/ranking": {
       "description": "This resource represents the RANKING of the best players of Movie Battle",
       "get": {
+        "description": "Returns a list containing all players sorted by score in descending order.",
         "tags": [
           "ranking-controller"
         ],
@@ -160,6 +184,28 @@
           },
           "correct": {
             "type": "boolean"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "integer",
+            "format": "timestamp"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "error": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
           }
         }
       },
@@ -267,8 +313,8 @@
         "flows": [
           {
             "password": {
-              "tokenUrl": "http://localhost:8083/oauth/token",
-              "refreshUrl": "http://localhost:8083/oauth/token",
+              "tokenUrl": "http://localhost:8080/oauth/token",
+              "refreshUrl": "http://localhost:8080/oauth/token",
               "scopes": [
                 {
                   "play": "Play the game: create and finish quizzes, create questions and submit responses."
