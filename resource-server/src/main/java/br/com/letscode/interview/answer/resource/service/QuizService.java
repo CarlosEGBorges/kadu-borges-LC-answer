@@ -29,6 +29,12 @@ public class QuizService {
         validateUsername(username);
         Quiz quiz = checkAvailableQuiz(username);
         quiz.setActive(false);
+        for(Question question : quiz.getQuestionList()){
+            if(question.getAnswer() == null){
+                quiz.setMistakes(quiz.getMistakes()+1);
+                break;
+            }
+        }
         quizRepository.save(quiz);
     }
 
@@ -62,6 +68,26 @@ public class QuizService {
             question = questionService.createNewQuestion(quiz);
             quiz.getQuestionList().add(question);
             quizRepository.save(quiz);
+        }
+        return question;
+    }
+
+    public Question createQuestion(String username) {
+        validateUsername(username);
+        Quiz quiz = checkAvailableQuiz(username);
+        Question question = null;
+        for(Question qst : quiz.getQuestionList()){
+            if(qst.getAnswer() == null){
+                question = qst;
+                break;
+            }
+        }
+        if(question == null){
+            question = questionService.createNewQuestion(quiz);
+            quiz.getQuestionList().add(question);
+            quizRepository.save(quiz);
+        } else {
+            throw new EntityExistsException("Não foi possível criar nova questão. Quiz ainda possui uma questão não respondida.");
         }
         return question;
     }

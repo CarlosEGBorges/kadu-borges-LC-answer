@@ -24,11 +24,11 @@ public class QuizControllerIntegrationTest {
     @Test
     public void shouldAuthenticateAndStartAndFinishAQuiz() throws Exception{
         String accessToken = TestUtil.obtainAccessToken();
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/quiz/start")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/quizzes/start")
                         .header("Authorization", "Bearer " + accessToken)
                         .accept("application/json;charset=UTF-8"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/quiz/finish")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/quizzes/finish")
                         .header("Authorization", "Bearer " + accessToken)
                         .accept("application/json;charset=UTF-8"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
@@ -37,7 +37,7 @@ public class QuizControllerIntegrationTest {
     @Test
     public void shouldAuthenticateAndTryToFinishAQuizReturningAnError() throws Exception{
         String accessToken = TestUtil.obtainAccessToken();
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/quiz/finish")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/quizzes/finish")
                         .header("Authorization", "Bearer " + accessToken)
                         .accept("application/json;charset=UTF-8"))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError());
@@ -46,16 +46,16 @@ public class QuizControllerIntegrationTest {
     @Test
     public void shouldTryToStartTwoQuizzesReturningAnError() throws Exception{
         String accessToken = TestUtil.obtainAccessToken();
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/quiz/start")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/quizzes/start")
                         .header("Authorization", "Bearer " + accessToken)
                         .accept("application/json;charset=UTF-8"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/quiz/start")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/quizzes/start")
                         .header("Authorization", "Bearer " + accessToken)
                         .accept("application/json;charset=UTF-8"))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError());
         // finish the Quiz opened
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/quiz/finish")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/quizzes/finish")
                         .header("Authorization", "Bearer " + accessToken)
                         .accept("application/json;charset=UTF-8"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
@@ -64,15 +64,15 @@ public class QuizControllerIntegrationTest {
     @Test
     public void shouldStartAQuizAndGetAQuestion() throws Exception{
         String accessToken = TestUtil.obtainAccessToken();
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/quiz/start")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/quizzes/start")
                         .header("Authorization", "Bearer " + accessToken)
                         .accept("application/json;charset=UTF-8"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/quiz/question")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/quizzes/questions")
                         .header("Authorization", "Bearer " + accessToken)
                         .accept("application/json;charset=UTF-8"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/quiz/finish")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/quizzes/finish")
                         .header("Authorization", "Bearer " + accessToken)
                         .accept("application/json;charset=UTF-8"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
@@ -81,12 +81,12 @@ public class QuizControllerIntegrationTest {
     @Test
     public void shouldStartAQuizAndGetAQuestionAndRespondToIt() throws Exception{
         String accessToken = TestUtil.obtainAccessToken();
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/quiz/start")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/quizzes/start")
                 .header("Authorization", "Bearer " + accessToken)
                 .accept("application/json;charset=UTF-8"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
-        String mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/api/quiz/question")
+        String mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/quizzes/questions")
                 .header("Authorization", "Bearer " + accessToken)
                 .accept("application/json;charset=UTF-8"))
                 .andReturn()
@@ -96,7 +96,7 @@ public class QuizControllerIntegrationTest {
         JacksonJsonParser jsonParser = new JacksonJsonParser();
         Map<String, Object> cardOneImdb = (Map<String, Object>) jsonParser.parseMap(mvcResult).get("cardOne");
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/quiz/finish")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/quizzes/finish")
                 .header("Authorization", "Bearer " + accessToken)
                 .content("{imdbId:" + cardOneImdb.get("imdbId") + "}")
                 .accept("application/json;charset=UTF-8"))

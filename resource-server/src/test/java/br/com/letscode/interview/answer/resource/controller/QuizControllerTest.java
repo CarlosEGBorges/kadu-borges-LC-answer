@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.Date;
 import java.util.NoSuchElementException;
@@ -54,7 +55,7 @@ public class QuizControllerTest {
     @Test
     public void shouldNotBeGrantedPermission()
             throws Exception{
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/quiz/start").accept(MediaType.APPLICATION_JSON);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/quizzes/start").accept(MediaType.APPLICATION_JSON);
         mockMvc.perform(requestBuilder).andExpect(status().isUnauthorized());
     }
 
@@ -67,8 +68,15 @@ public class QuizControllerTest {
     @Test
     public void shouldNotThrowExceptionOnGetQuestion() {
         Question question = createQuestion();
-        when(quizService.getQuestion(mockOAuth2Object.getPrincipal().toString(), true)).thenReturn(question);
+        when(quizService.getQuestion(mockOAuth2Object.getPrincipal().toString(), false)).thenReturn(question);
         assertEquals(quizController.getQuestion(mockOAuth2Object).getId(), question.getId());
+    }
+
+    @Test
+    public void shouldNotThrowExceptionOnCreateQuestion() {
+        Question question = createQuestion();
+        when(quizService.createQuestion(mockOAuth2Object.getPrincipal().toString())).thenReturn(question);
+        assertEquals(quizController.createQuestion(mockOAuth2Object).getId(), question.getId());
     }
 
     @Test
@@ -99,8 +107,14 @@ public class QuizControllerTest {
 
     @Test
     public void shouldThrowExceptionOnGetQuestion() {
-        when(quizService.getQuestion(mockOAuth2Object.getPrincipal().toString(), true)).thenThrow(EntityNotFoundException.class);
+        when(quizService.getQuestion(mockOAuth2Object.getPrincipal().toString(), false)).thenThrow(EntityNotFoundException.class);
         assertThrows(ResponseStatusException.class, () -> quizController.getQuestion(mockOAuth2Object));
+    }
+
+    @Test
+    public void shouldThrowExceptionOnCreateQuestion() {
+        when(quizService.createQuestion(mockOAuth2Object.getPrincipal().toString())).thenThrow(EntityExistsException.class);
+        assertThrows(ResponseStatusException.class, () -> quizController.createQuestion(mockOAuth2Object));
     }
 
     @Test

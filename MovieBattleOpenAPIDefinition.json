@@ -1,0 +1,277 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/api/quizzes/start": {
+      "post": {
+        "tags": [
+          "quiz-controller"
+        ],
+        "operationId": "startQuiz",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Quiz"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/quizzes/questions/answer": {
+      "post": {
+        "tags": [
+          "quiz-controller"
+        ],
+        "operationId": "answerQuestion",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Response"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Answer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/quizzes/finish": {
+      "post": {
+        "tags": [
+          "quiz-controller"
+        ],
+        "operationId": "finishQuiz",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/ranking": {
+      "get": {
+        "tags": [
+          "ranking-controller"
+        ],
+        "operationId": "getRanking",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RankingPosition"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/quizzes/questions": {
+      "get": {
+        "tags": [
+          "quiz-controller"
+        ],
+        "operationId": "getQuestion",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Question"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "quiz-controller"
+        ],
+        "operationId": "createQuestion",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Question"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Answer": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "selectedOption": {
+            "$ref": "#/components/schemas/MovieCard"
+          },
+          "correct": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MovieCard": {
+        "type": "object",
+        "properties": {
+          "imdbId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "releasedYear": {
+            "type": "string"
+          },
+          "posterUrl": {
+            "type": "string"
+          },
+          "imdbRating": {
+            "type": "number",
+            "format": "double"
+          },
+          "imdbVotes": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Question": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "cardOne": {
+            "$ref": "#/components/schemas/MovieCard"
+          },
+          "cardTwo": {
+            "$ref": "#/components/schemas/MovieCard"
+          },
+          "answer": {
+            "$ref": "#/components/schemas/Answer"
+          }
+        }
+      },
+      "Quiz": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string"
+          },
+          "questionList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Question"
+            }
+          },
+          "mistakes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Response": {
+        "type": "object",
+        "properties": {
+          "imdbId": {
+            "type": "string"
+          }
+        }
+      },
+      "RankingPosition": {
+        "type": "object",
+        "properties": {
+          "player": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "oAuth2CommonFlow": {
+        "type": "oauth2",
+        "description":"This API uses OAuth2 with the password grant type flow.",
+        "flows": [
+          {
+            "password": {
+              "tokenUrl": "http://localhost:8083/oauth/token",
+              "refreshUrl": "http://localhost:8083/oauth/token",
+              "scopes": [
+                {
+                  "play": ""
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -16,6 +16,7 @@ import javax.persistence.EntityNotFoundException;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -33,7 +34,7 @@ public class QuizServiceTest {
     @InjectMocks
     private QuizService quizService = new QuizService();
 
-    private String principal = "principal";
+    private final String principal = "principal";
 
     @Test
     public void shouldThrowExceptionOnStart_whenUsernameIsNull() {
@@ -60,9 +61,25 @@ public class QuizServiceTest {
     public void shouldFinishAQuizWithoutThrowingException() {
         Quiz quiz = new Quiz();
         quiz.setActive(true);
+        quiz.setQuestionList(new ArrayList<>());
         when(quizRepository.findByUsernameAndActiveIsTrue(anyString())).thenReturn(quiz);
         quizService.finishQuiz(principal);
         assertFalse(quiz.getActive());
+    }
+
+    @Test
+    public void shouldFinishAQuizWithoutThrowingExceptionAndUpdatingMistakesNumber() {
+        Quiz quiz = new Quiz();
+        quiz.setMistakes(0);
+        quiz.setActive(true);
+
+        List<Question> questionList = new ArrayList<>();
+        questionList.add(new Question());
+        quiz.setQuestionList(questionList);
+
+        when(quizRepository.findByUsernameAndActiveIsTrue(anyString())).thenReturn(quiz);
+        quizService.finishQuiz(principal);
+        assertFalse(quiz.getActive() && quiz.getMistakes() == 1);
     }
 
     @Test
