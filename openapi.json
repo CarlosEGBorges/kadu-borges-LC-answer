@@ -1,17 +1,19 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "OpenAPI definition",
+    "title": "Movie Battle OpenAPI definition - Kadu Borges' Solution",
     "version": "v0"
   },
   "servers": [
     {
       "url": "http://localhost:8080",
-      "description": "Generated server url"
+      "description": "For Movie Battle local test purposes only "
     }
   ],
+  "security": ["oAuth2Security"],
   "paths": {
     "/api/quizzes/start": {
+      "description": "This function creates a QUIZ ready to be played.",
       "post": {
         "tags": [
           "quiz-controller"
@@ -31,37 +33,8 @@
         }
       }
     },
-    "/api/quizzes/questions/answer": {
-      "post": {
-        "tags": [
-          "quiz-controller"
-        ],
-        "operationId": "answerQuestion",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Response"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Answer"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/quizzes/finish": {
+      "description": "This function finishes a QUIZ.",
       "post": {
         "tags": [
           "quiz-controller"
@@ -74,30 +47,8 @@
         }
       }
     },
-    "/ranking": {
-      "get": {
-        "tags": [
-          "ranking-controller"
-        ],
-        "operationId": "getRanking",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/RankingPosition"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/quizzes/questions": {
+      "description": "This resource represents a QUESTION of an active QUIZ",
       "get": {
         "tags": [
           "quiz-controller"
@@ -128,6 +79,61 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Question"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/quizzes/questions/answer": {
+      "description": "This resource represents the ANSWER of an unanswered QUESTION",
+      "post": {
+        "tags": [
+          "quiz-controller"
+        ],
+        "operationId": "answerQuestion",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Response"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Answer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ranking": {
+      "description": "This resource represents the RANKING of the best players of Movie Battle",
+      "get": {
+        "tags": [
+          "ranking-controller"
+        ],
+        "operationId": "getRanking",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RankingPosition"
+                  }
                 }
               }
             }
@@ -255,7 +261,7 @@
       }
     },
     "securitySchemes": {
-      "oAuth2CommonFlow": {
+      "oAuth2Security": {
         "type": "oauth2",
         "description":"This API uses OAuth2 with the password grant type flow.",
         "flows": [
@@ -265,7 +271,7 @@
               "refreshUrl": "http://localhost:8083/oauth/token",
               "scopes": [
                 {
-                  "play": ""
+                  "play": "Play the game: create and finish quizzes, create questions and submit responses."
                 }
               ]
             }

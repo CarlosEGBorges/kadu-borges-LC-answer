@@ -34,7 +34,19 @@ Como era de se esperar de um desafio, muitas lacunas nas regras de negócio pode
 </ul>
 
 ## Definição OpenAPI 3.0
-Para acessar a OpenAPI 3.0, basta acessar o link abaixo quando o servidor de recursos estiver ativo:
-http://localhost:8080/v3/api-docs
+Para acessar a definição OpenAPI 3.0 do servidor de recursos, procure pelo arquivo <b>openapi.json</b> na pasta principal do projeto.
 
-
+## Credenciais da Aplicação
+<ul>
+    <li>Aplicação Cliente <i>(usuário - senha)</i>:
+        <ul>
+            <li>appclient - 12345678</li>
+        </ul>
+    </li>
+    <li>Usuários <i>(usuário - senha)</i>:
+        <ul>
+            <li>usuario1 - 12345678</li>
+            <li>usuario2 - 12345678</li>
+        </ul>
+    </li>
+</ul>
