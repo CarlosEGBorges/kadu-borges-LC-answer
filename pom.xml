@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>br.com.letscode.interviewchallenge</groupId>
+	<groupId>br.com.letscode.interviewquestion</groupId>
 	<artifactId>kadu-borges-answer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Movies Battle</name>
