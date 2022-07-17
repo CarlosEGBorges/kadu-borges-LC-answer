@@ -2,26 +2,29 @@
 
 ## Descrição do Projeto
 <p align="center">
-A solução foi criada utilizando-se os seguintes conceitos e tecnologias:
-<ul>
-  <li>Spring Boot v2.7.1
+    A solução foi criada utilizando-se os seguintes conceitos e tecnologias:
     <ul>
-      <li>Spring Web</li>
-      <li>Spring Data JPA</li>
-      <li>Spring Security com OAuth2 e JWT</li>
+      <li>Spring Boot v2.7.1
+        <ul>
+          <li>Spring Web</li>
+          <li>Spring Data JPA</li>
+          <li>Spring Security com OAuth2 e JWT</li>
+          <li>Spring Cloud com Eureka e Gateway</li>
+        </ul>
+      </li>
+      <li>JUnit 5</li>
+      <li>Lombok</li>
+      <li>SpringDoc</li>
+      <li>H2 Database</li>
+      <li>Arquitetura
+        <ul>
+          <li>Eureka Server</li>
+          <li>Gateway Server</li>
+          <li>Authorization Server</li>
+          <li>Resource Server (Controller-Service-Repository)</li>
+        </ul>
+      </li>
     </ul>
-  </li>
-  <li>JUnit 5</li>
-  <li>Lombok</li>
-  <li>SpringDoc</li>
-  <li>H2 Database</li>
-  <li>Arquitetura
-    <ul>
-      <li>Authorization Server</li>
-      <li>Resource Server (Controller-Service-Repository)</li>
-    </ul>
-  </li>
-</ul>
 </p>
 
 ## Suposições
